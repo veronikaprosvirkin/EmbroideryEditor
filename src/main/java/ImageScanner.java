@@ -22,13 +22,14 @@ public class ImageScanner {
                 double g = pixelColor.getGreen();
                 double b = pixelColor.getBlue();
 
-
-                if (r > 0.8 && g < 0.2 && b < 0.2) {
+                if (r > 0.5 && g < 0.5 && b < 0.5) {
                     scannedGrid[x][y] = Color.RED;
-                } else if (r < 0.1 && g < 0.1 && b < 0.1) {
+                }
+                else if (r < 0.4 && g < 0.4 && b < 0.4) {
                     scannedGrid[x][y] = Color.BLACK;
-                } else {
-                    scannedGrid[x][y] = Color.rgb(255,244,181);
+                }
+                else {
+                    scannedGrid[x][y] = null;
                 }
             }
         }

@@ -13,8 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Редактор орнаменту української вишивки | Автор: Просвіркін Вероніка");
-        EditorScreen editor = new EditorScreen();
-        primaryStage.setScene(editor.createScene());
+        SplashScreen splash = new SplashScreen(primaryStage);
+        primaryStage.setScene(splash.createSplashScene());
         primaryStage.show();
     }
 
