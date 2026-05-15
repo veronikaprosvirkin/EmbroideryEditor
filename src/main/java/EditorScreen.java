@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -120,7 +121,7 @@ public class EditorScreen {
             addColorToHistory(currentColor);
 
             if (canvas != null) {
-                canvas.requestFocus();
+                Platform.runLater(()-> canvas.requestFocus());
             }
         });
         return colorPicker;
@@ -128,7 +129,7 @@ public class EditorScreen {
 
     private void addColorToHistory(Color currentColor) {
         Button colorBtn = createColorButton(currentColor, toHexString(currentColor));
-
+        colorBtn.fire();
         historyBox.getChildren().add(0, colorBtn);
         if (historyBox.getChildren().size() > 10) {
             historyBox.getChildren().remove(10);
@@ -146,21 +147,29 @@ public class EditorScreen {
     private Button createColorButton(Color color, String colorHex) {
         Button btn = new Button();
         btn.setPrefSize(30, 30);
-        String baseStyle = "-fx-background-color: " + colorHex + "; -fx-border-color: black;";
+
+        String baseStyle = "-fx-background-color: " + colorHex + "; -fx-border-color: black; -fx-border-width: 1px;";
         String activeStyle = "-fx-background-color: " + colorHex + "; -fx-border-color: #009903; -fx-border-width: 2.5px;";
+
         btn.setStyle(baseStyle);
+
+        btn.setUserData(baseStyle);
 
         btn.setOnAction(event -> {
             currentColor = color;
+
             if (lastSelectedButton != null) {
-                lastSelectedButton.setStyle(baseStyle);
+                lastSelectedButton.setStyle((String) lastSelectedButton.getUserData());
             }
+
             btn.setStyle(activeStyle);
             lastSelectedButton = btn;
+
             if (canvas != null) {
-                canvas.requestFocus();
+                Platform.runLater(()-> canvas.requestFocus());
             }
         });
+
         return btn;
     }
 
